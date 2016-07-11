@@ -33,9 +33,11 @@ using System.Linq;
 using KleiLib;
 using SquishNET;
 
+using System.Collections.Generic;
+using System.Xml;
+
 namespace TEXTool
 {
-
     class KleiTextureAtlasElement
     {
         public string name { get; set; }
@@ -84,6 +86,8 @@ namespace TEXTool
 
     public class TEXTool
     {
+        public List<KleiTextureAtlasElement> AtlasElements = new List<KleiTextureAtlasElement>();
+
         public TEXFile CurrentFile;
         public Bitmap CurrentFileRaw;
 
@@ -170,6 +174,16 @@ namespace TEXTool
                     throw new Exception("Unknown pixel format?");
             }
 
+            string atlasExt = "xml";
+            FileInfo fileInfo = new FileInfo(filename);
+            string fileDir = fileInfo.DirectoryName;
+            string fileNameWithoutExt = fileInfo.Name.Replace(fileInfo.Extension, "");
+            string atlasDataPath = fileDir + fileNameWithoutExt + "." + atlasExt;
+            if (File.Exists(atlasDataPath))
+            {
+                ReadAtlasData(atlasDataPath, mipmap.Width, mipmap.Height);
+            }
+
             var imgReader = new BinaryReader(new MemoryStream(argbData));
 
             Bitmap pt = new Bitmap((int)mipmap.Width, (int)mipmap.Height);
@@ -189,6 +203,39 @@ namespace TEXTool
             CurrentFileRaw = pt;
 
             OnRawImage(new FileRawImageEventArgs(pt));
+        }
+
+        private void ReadAtlasData(string path, int mipmapWidth, int mipmapHeight)
+        {
+            try
+            {
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.Load(path);
+
+                XmlNode xNodeElements = xDoc.SelectSingleNode("Atlas/Elements");
+                foreach (XmlNode xChild in xNodeElements.ChildNodes)
+                {
+                    string name = xChild.Attributes.GetNamedItem("name").Value;
+                    double u1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("u1").Value.Replace(".", ","));
+                    double u2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("u2").Value.Replace(".", ","));
+                    double v1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v1").Value.Replace(".", ","));
+                    double v2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v2").Value.Replace(".", ","));
+
+                    int imgHmin, imgHmax, imgVmin, imgVmax;
+                    double margin = 0.5;
+                    imgHmin = Convert.ToInt16(u1 * mipmapWidth - margin);
+                    imgHmax = Convert.ToInt16(u2 * mipmapWidth - margin);
+                    imgVmin = Convert.ToInt16(v1 * mipmapHeight - margin);
+                    imgVmax = Convert.ToInt16(v2 * mipmapHeight - margin);
+
+                    AtlasElements.Add(new KleiTextureAtlasElement(name, imgHmin, imgHmax, imgVmin, imgVmax));
+                }
+            }
+            catch (Exception e)
+            {
+                AtlasElements.Clear();
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void SaveFile(string FilePath)
