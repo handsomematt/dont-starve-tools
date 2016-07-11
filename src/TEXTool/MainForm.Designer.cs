@@ -56,6 +56,8 @@ namespace TEXTool
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.imageBox = new Cyotek.Windows.Forms.ImageBox();
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -72,14 +74,48 @@ namespace TEXTool
             this.sizeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mipmapsToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.platformToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.imageBox = new Cyotek.Windows.Forms.ImageBox();
             this.textureTypeToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.BottomToolStripPanel
+            // 
+            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.statusStrip1);
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.imageBox);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(694, 370);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(694, 417);
+            this.toolStripContainer1.TabIndex = 2;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.mainToolStrip);
+            // 
+            // imageBox
+            // 
+            this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageBox.Location = new System.Drawing.Point(0, 0);
+            this.imageBox.Name = "imageBox";
+            this.imageBox.Size = new System.Drawing.Size(694, 370);
+            this.imageBox.TabIndex = 3;
+            // 
             // mainToolStrip
             // 
+            this.mainToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.mainToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripButton,
             this.saveToolStripButton,
@@ -94,7 +130,8 @@ namespace TEXTool
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.Size = new System.Drawing.Size(694, 25);
-            this.mainToolStrip.TabIndex = 0;
+            this.mainToolStrip.Stretch = true;
+            this.mainToolStrip.TabIndex = 1;
             // 
             // openToolStripButton
             // 
@@ -104,7 +141,6 @@ namespace TEXTool
             this.openToolStripButton.Name = "openToolStripButton";
             this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.openToolStripButton.Text = "&Open";
-            this.openToolStripButton.Click += new System.EventHandler(this.openToolStripButton_Click);
             // 
             // saveToolStripButton
             // 
@@ -114,7 +150,6 @@ namespace TEXTool
             this.saveToolStripButton.Name = "saveToolStripButton";
             this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveToolStripButton.Text = "&Save";
-            this.saveToolStripButton.Click += new System.EventHandler(this.saveToolStripButton_Click);
             // 
             // toolStripSeparator
             // 
@@ -129,7 +164,6 @@ namespace TEXTool
             this.fitToolStripButton.Name = "fitToolStripButton";
             this.fitToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.fitToolStripButton.Text = "Zoom To Fit";
-            this.fitToolStripButton.Click += new System.EventHandler(this.fitToolStripButton_Click);
             // 
             // zoomInToolStripButton
             // 
@@ -139,7 +173,6 @@ namespace TEXTool
             this.zoomInToolStripButton.Name = "zoomInToolStripButton";
             this.zoomInToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.zoomInToolStripButton.Text = "Zoom In";
-            this.zoomInToolStripButton.Click += new System.EventHandler(this.zoomInToolStripButton_Click);
             // 
             // zoomOutToolStripButton
             // 
@@ -149,7 +182,6 @@ namespace TEXTool
             this.zoomOutToolStripButton.Name = "zoomOutToolStripButton";
             this.zoomOutToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.zoomOutToolStripButton.Text = "Zoom Out";
-            this.zoomOutToolStripButton.Click += new System.EventHandler(this.zoomOutToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -170,67 +202,57 @@ namespace TEXTool
             this.infoToolStripButton.Name = "infoToolStripButton";
             this.infoToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.infoToolStripButton.Text = "Info";
-            this.infoToolStripButton.Click += new System.EventHandler(this.infoToolStripButton_Click);
             // 
             // versionToolStripLabel
             // 
             this.versionToolStripLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.versionToolStripLabel.Name = "versionToolStripLabel";
-            this.versionToolStripLabel.Size = new System.Drawing.Size(46, 22);
+            this.versionToolStripLabel.Size = new System.Drawing.Size(42, 22);
             this.versionToolStripLabel.Text = "Version";
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.formatToolStripStatusLabel,
             this.sizeToolStripStatusLabel,
             this.mipmapsToolStripStatusLabel,
             this.platformToolStripStatusLabel,
             this.textureTypeToolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 395);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(694, 22);
-            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // formatToolStripStatusLabel
             // 
             this.formatToolStripStatusLabel.Name = "formatToolStripStatusLabel";
-            this.formatToolStripStatusLabel.Size = new System.Drawing.Size(45, 17);
+            this.formatToolStripStatusLabel.Size = new System.Drawing.Size(41, 17);
             this.formatToolStripStatusLabel.Text = "Format";
             // 
             // sizeToolStripStatusLabel
             // 
             this.sizeToolStripStatusLabel.Name = "sizeToolStripStatusLabel";
-            this.sizeToolStripStatusLabel.Size = new System.Drawing.Size(27, 17);
+            this.sizeToolStripStatusLabel.Size = new System.Drawing.Size(26, 17);
             this.sizeToolStripStatusLabel.Text = "Size";
             // 
             // mipmapsToolStripStatusLabel
             // 
             this.mipmapsToolStripStatusLabel.Name = "mipmapsToolStripStatusLabel";
-            this.mipmapsToolStripStatusLabel.Size = new System.Drawing.Size(57, 17);
+            this.mipmapsToolStripStatusLabel.Size = new System.Drawing.Size(48, 17);
             this.mipmapsToolStripStatusLabel.Text = "Mipmaps";
             // 
             // platformToolStripStatusLabel
             // 
             this.platformToolStripStatusLabel.Name = "platformToolStripStatusLabel";
-            this.platformToolStripStatusLabel.Size = new System.Drawing.Size(53, 17);
+            this.platformToolStripStatusLabel.Size = new System.Drawing.Size(47, 17);
             this.platformToolStripStatusLabel.Text = "Platform";
-            // 
-            // imageBox
-            // 
-            this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBox.Location = new System.Drawing.Point(0, 25);
-            this.imageBox.Name = "imageBox";
-            this.imageBox.Size = new System.Drawing.Size(694, 370);
-            this.imageBox.TabIndex = 2;
-            this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox1_ZoomChanged);
-            this.imageBox.ZoomLevelsChanged += new System.EventHandler(this.imageBox1_ZoomLevelsChanged);
             // 
             // textureTypeToolStripStatusLabel
             // 
             this.textureTypeToolStripStatusLabel.Name = "textureTypeToolStripStatusLabel";
-            this.textureTypeToolStripStatusLabel.Size = new System.Drawing.Size(51, 17);
+            this.textureTypeToolStripStatusLabel.Size = new System.Drawing.Size(49, 17);
             this.textureTypeToolStripStatusLabel.Text = "TexType";
             // 
             // MainForm
@@ -238,23 +260,35 @@ namespace TEXTool
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 417);
-            this.Controls.Add(this.imageBox);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.mainToolStrip);
+            this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "KleiStudio - TEXTool";
+            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel formatToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel sizeToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel mipmapsToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel platformToolStripStatusLabel;
+        private System.Windows.Forms.ToolStripStatusLabel textureTypeToolStripStatusLabel;
+        private Cyotek.Windows.Forms.ImageBox imageBox;
         private System.Windows.Forms.ToolStrip mainToolStrip;
         private System.Windows.Forms.ToolStripButton openToolStripButton;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
@@ -264,15 +298,9 @@ namespace TEXTool
         private System.Windows.Forms.ToolStripButton zoomOutToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripComboBox zoomLevelToolStripComboBox;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private Cyotek.Windows.Forms.ImageBox imageBox;
         private System.Windows.Forms.ToolStripButton infoToolStripButton;
         private System.Windows.Forms.ToolStripLabel versionToolStripLabel;
-        private System.Windows.Forms.ToolStripStatusLabel formatToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel sizeToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel mipmapsToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel platformToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripStatusLabel textureTypeToolStripStatusLabel;
+
 
     }
 }
