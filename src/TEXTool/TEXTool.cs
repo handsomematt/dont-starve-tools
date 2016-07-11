@@ -38,7 +38,7 @@ using System.Xml;
 
 namespace TEXTool
 {
-    class KleiTextureAtlasElement
+    public class KleiTextureAtlasElement
     {
         public string Name { get; set; }
         public int ImgHmin { get; set; }
@@ -74,10 +74,12 @@ namespace TEXTool
     public class FileRawImageEventArgs : EventArgs
     {
         public Bitmap Image { get; set; }
+        public List<KleiTextureAtlasElement> AtlasElements { get; set; }
 
-        public FileRawImageEventArgs(Bitmap image)
+        public FileRawImageEventArgs(Bitmap image, List<KleiTextureAtlasElement> elements)
         {
             this.Image = image;
+            this.AtlasElements = elements;
         }
     }
 
@@ -86,8 +88,6 @@ namespace TEXTool
 
     public class TEXTool
     {
-        public List<KleiTextureAtlasElement> AtlasElements = new List<KleiTextureAtlasElement>();
-
         public TEXFile CurrentFile;
         public Bitmap CurrentFileRaw;
 
@@ -179,9 +179,14 @@ namespace TEXTool
             string fileDir = fileInfo.DirectoryName;
             string fileNameWithoutExt = fileInfo.Name.Replace(fileInfo.Extension, "");
             string atlasDataPath = fileDir + fileNameWithoutExt + "." + atlasExt;
+            List<KleiTextureAtlasElement> atlasElements = null;
             if (File.Exists(atlasDataPath))
             {
-                ReadAtlasData(atlasDataPath, mipmap.Width, mipmap.Height);
+                atlasElements = ReadAtlasData(atlasDataPath, mipmap.Width, mipmap.Height);
+            }
+            else
+            {
+                atlasElements = new List<KleiTextureAtlasElement>();
             }
 
             var imgReader = new BinaryReader(new MemoryStream(argbData));
@@ -202,11 +207,12 @@ namespace TEXTool
 
             CurrentFileRaw = pt;
 
-            OnRawImage(new FileRawImageEventArgs(pt));
+            OnRawImage(new FileRawImageEventArgs(pt, atlasElements));
         }
 
-        private void ReadAtlasData(string path, int mipmapWidth, int mipmapHeight)
+        private List<KleiTextureAtlasElement> ReadAtlasData(string path, int mipmapWidth, int mipmapHeight)
         {
+            var AtlasElements = new List<KleiTextureAtlasElement>();
             try
             {
                 XmlDocument xDoc = new XmlDocument();
@@ -236,6 +242,7 @@ namespace TEXTool
                 AtlasElements.Clear();
                 Console.WriteLine(e.Message);
             }
+            return AtlasElements;
         }
 
 
