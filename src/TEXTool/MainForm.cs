@@ -144,12 +144,12 @@ namespace TEXTool
 
         #region Misc Form Event Handlers
 
-        private void imageBox1_ZoomLevelsChanged(object sender, EventArgs e)
+        private void imageBox_ZoomLevelsChanged(object sender, EventArgs e)
         {
             FillZoomLevelComboBox();
         }
 
-        private void imageBox1_ZoomChanged(object sender, EventArgs e)
+        private void imageBox_ZoomChanged(object sender, EventArgs e)
         {
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
         }
