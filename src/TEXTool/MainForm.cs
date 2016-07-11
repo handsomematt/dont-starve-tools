@@ -29,11 +29,15 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
 namespace TEXTool
 {
     public partial class MainForm : Form
     {
         public TEXTool Tool;
+        GraphicsPath gp;
 
         public MainForm()
         {
@@ -52,13 +56,27 @@ namespace TEXTool
         {
             if (e.AtlasElements.Count > 0)
             {
+                gp = new GraphicsPath();
                 foreach (KleiTextureAtlasElement el in e.AtlasElements)
                 {
+                    gp.AddRectangle(new Rectangle(el.ImgHmin, el.ImgVmin, el.ImgHmin + el.ImgHmax, el.ImgVmin + el.ImgVmax));
                     toolStripComboBox1.Items.Add(el.Name);
                 }
             }
+            else
+            {
+                gp = null;
+            }
             imageBox.Image = e.Image;
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
+        }
+
+        private void imageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (imageBox.Image != null && gp != null)
+            {
+                e.Graphics.DrawPath(Pens.Black, gp);
+            }
         }
 
         private void TEXTool_FileOpened(object sender, FileOpenedEventArgs e)

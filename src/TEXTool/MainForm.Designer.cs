@@ -160,6 +160,7 @@ namespace TEXTool
             this.imageBox.TabIndex = 3;
             this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox_ZoomChanged);
             this.imageBox.ZoomLevelsChanged += new System.EventHandler(this.imageBox_ZoomLevelsChanged);
+            this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
             // 
             // mainToolStrip
             // 
