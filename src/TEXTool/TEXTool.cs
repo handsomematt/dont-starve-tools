@@ -35,6 +35,25 @@ using SquishNET;
 
 namespace TEXTool
 {
+
+    class KleiTextureAtlasElement
+    {
+        public string name { get; set; }
+        public int ImgHmin { get; set; }
+        public int ImgHmax { get; set; }
+        public int ImgVmin { get; set; }
+        public int ImgVmax { get; set; }
+
+        public KleiTextureAtlasElement(string name, int u1, int u2, int v1, int v2)
+        {
+            this.name = name;
+            this.ImgHmin = u1;
+            this.ImgHmax = u2;
+            this.ImgVmin = v1;
+            this.ImgVmax = v2;
+        }
+    }
+
     public class FileOpenedEventArgs : EventArgs
     {
         public string FileName { get; set; }
