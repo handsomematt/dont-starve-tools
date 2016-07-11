@@ -75,6 +75,7 @@ namespace TEXTool
             this.zoomLevelToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.infoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.versionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -173,7 +174,8 @@ namespace TEXTool
             this.toolStripSeparator1,
             this.zoomLevelToolStripComboBox,
             this.infoToolStripButton,
-            this.versionToolStripLabel});
+            this.versionToolStripLabel,
+            this.toolStripComboBox1});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.Size = new System.Drawing.Size(694, 25);
@@ -263,6 +265,11 @@ namespace TEXTool
             this.versionToolStripLabel.Size = new System.Drawing.Size(42, 22);
             this.versionToolStripLabel.Text = "Version";
             // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -308,6 +315,7 @@ namespace TEXTool
         private System.Windows.Forms.ToolStripComboBox zoomLevelToolStripComboBox;
         private System.Windows.Forms.ToolStripButton infoToolStripButton;
         private System.Windows.Forms.ToolStripLabel versionToolStripLabel;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
 
 
     }

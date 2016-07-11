@@ -50,6 +50,13 @@ namespace TEXTool
 
         void tool_FileRawImage(object sender, FileRawImageEventArgs e)
         {
+            if (e.AtlasElements.Count > 0)
+            {
+                foreach (KleiTextureAtlasElement el in e.AtlasElements)
+                {
+                    toolStripComboBox1.Items.Add(el.Name);
+                }
+            }
             imageBox.Image = e.Image;
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
         }
