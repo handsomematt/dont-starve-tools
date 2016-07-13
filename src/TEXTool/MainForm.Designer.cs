@@ -75,13 +75,21 @@ namespace TEXTool
             this.zoomLevelToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.infoToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.versionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.atlasElementsToolStrip = new System.Windows.Forms.ToolStrip();
+            this.atlasElementsToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.atlasElementsCountToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.atlasElementsCountIntToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.atlasElementsTitleToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.atlasElementsListToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.mainToolStrip.SuspendLayout();
+            this.atlasElementsToolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStripContainer1
@@ -94,7 +102,7 @@ namespace TEXTool
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.imageBox);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(694, 370);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(694, 345);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -104,6 +112,7 @@ namespace TEXTool
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.atlasElementsToolStrip);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.mainToolStrip);
             // 
             // statusStrip1
@@ -156,7 +165,7 @@ namespace TEXTool
             this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBox.Location = new System.Drawing.Point(0, 0);
             this.imageBox.Name = "imageBox";
-            this.imageBox.Size = new System.Drawing.Size(694, 370);
+            this.imageBox.Size = new System.Drawing.Size(694, 345);
             this.imageBox.TabIndex = 3;
             this.imageBox.ZoomChanged += new System.EventHandler(this.imageBox_ZoomChanged);
             this.imageBox.ZoomLevelsChanged += new System.EventHandler(this.imageBox_ZoomLevelsChanged);
@@ -175,8 +184,7 @@ namespace TEXTool
             this.toolStripSeparator1,
             this.zoomLevelToolStripComboBox,
             this.infoToolStripButton,
-            this.versionToolStripLabel,
-            this.toolStripComboBox1});
+            this.versionToolStripLabel});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mainToolStrip.Name = "mainToolStrip";
             this.mainToolStrip.Size = new System.Drawing.Size(694, 25);
@@ -266,10 +274,60 @@ namespace TEXTool
             this.versionToolStripLabel.Size = new System.Drawing.Size(42, 22);
             this.versionToolStripLabel.Text = "Version";
             // 
-            // toolStripComboBox1
+            // atlasElementsToolStrip
             // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            this.atlasElementsToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.atlasElementsToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.atlasElementsToolStripLabel,
+            this.toolStripSeparator2,
+            this.atlasElementsCountToolStripLabel,
+            this.atlasElementsCountIntToolStripLabel,
+            this.toolStripSeparator3,
+            this.atlasElementsTitleToolStripLabel,
+            this.atlasElementsListToolStripComboBox});
+            this.atlasElementsToolStrip.Location = new System.Drawing.Point(3, 25);
+            this.atlasElementsToolStrip.Name = "atlasElementsToolStrip";
+            this.atlasElementsToolStrip.Size = new System.Drawing.Size(366, 25);
+            this.atlasElementsToolStrip.TabIndex = 2;
+            // 
+            // atlasElementsToolStripLabel
+            // 
+            this.atlasElementsToolStripLabel.Name = "atlasElementsToolStripLabel";
+            this.atlasElementsToolStripLabel.Size = new System.Drawing.Size(81, 22);
+            this.atlasElementsToolStripLabel.Text = "Atlas Elements:";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // atlasElementsCountToolStripLabel
+            // 
+            this.atlasElementsCountToolStripLabel.Name = "atlasElementsCountToolStripLabel";
+            this.atlasElementsCountToolStripLabel.Size = new System.Drawing.Size(40, 22);
+            this.atlasElementsCountToolStripLabel.Text = "Count:";
+            // 
+            // atlasElementsCountIntToolStripLabel
+            // 
+            this.atlasElementsCountIntToolStripLabel.Name = "atlasElementsCountIntToolStripLabel";
+            this.atlasElementsCountIntToolStripLabel.Size = new System.Drawing.Size(13, 22);
+            this.atlasElementsCountIntToolStripLabel.Text = "0";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // atlasElementsTitleToolStripLabel
+            // 
+            this.atlasElementsTitleToolStripLabel.Name = "atlasElementsTitleToolStripLabel";
+            this.atlasElementsTitleToolStripLabel.Size = new System.Drawing.Size(54, 22);
+            this.atlasElementsTitleToolStripLabel.Text = "Elements:";
+            // 
+            // atlasElementsListToolStripComboBox
+            // 
+            this.atlasElementsListToolStripComboBox.Name = "atlasElementsListToolStripComboBox";
+            this.atlasElementsListToolStripComboBox.Size = new System.Drawing.Size(121, 25);
             // 
             // MainForm
             // 
@@ -291,6 +349,8 @@ namespace TEXTool
             this.statusStrip1.PerformLayout();
             this.mainToolStrip.ResumeLayout(false);
             this.mainToolStrip.PerformLayout();
+            this.atlasElementsToolStrip.ResumeLayout(false);
+            this.atlasElementsToolStrip.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -316,7 +376,14 @@ namespace TEXTool
         private System.Windows.Forms.ToolStripComboBox zoomLevelToolStripComboBox;
         private System.Windows.Forms.ToolStripButton infoToolStripButton;
         private System.Windows.Forms.ToolStripLabel versionToolStripLabel;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.ToolStrip atlasElementsToolStrip;
+        private System.Windows.Forms.ToolStripLabel atlasElementsToolStripLabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripLabel atlasElementsCountToolStripLabel;
+        private System.Windows.Forms.ToolStripLabel atlasElementsCountIntToolStripLabel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripLabel atlasElementsTitleToolStripLabel;
+        private System.Windows.Forms.ToolStripComboBox atlasElementsListToolStripComboBox;
 
 
     }
