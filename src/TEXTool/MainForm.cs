@@ -48,25 +48,31 @@ namespace TEXTool
             InitializeComponent();
             FillZoomLevelComboBox();
             versionToolStripLabel.Text = string.Format("Version: {0}", Assembly.GetEntryAssembly().GetName().Version);
+
+            atlasElementsListToolStripComboBox.ComboBox.DisplayMember = "Name";
         }
 
         #region
 
         void tool_FileRawImage(object sender, FileRawImageEventArgs e)
         {
+            atlasElementsCountIntToolStripLabel.Text = e.AtlasElements.Count.ToString();
+            atlasElementsListToolStripComboBox.ComboBox.Items.Clear();
+
             if (e.AtlasElements.Count > 0)
             {
                 gp = new GraphicsPath();
                 foreach (KleiTextureAtlasElement el in e.AtlasElements)
                 {
                     gp.AddRectangle(new Rectangle(el.ImgHmin, el.ImgVmin, el.ImgHmin + el.ImgHmax, el.ImgVmin + el.ImgVmax));
-                    toolStripComboBox1.Items.Add(el.Name);
+                    atlasElementsListToolStripComboBox.Items.Add(el);
                 }
             }
             else
             {
                 gp = null;
             }
+            
             imageBox.Image = e.Image;
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
         }

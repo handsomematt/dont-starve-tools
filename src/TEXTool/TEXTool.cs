@@ -179,15 +179,11 @@ namespace TEXTool
             string fileDir = fileInfo.DirectoryName;
             string fileNameWithoutExt = fileInfo.Name.Replace(fileInfo.Extension, "");
             string atlasDataPath = fileDir + @"\" + fileNameWithoutExt + "." + atlasExt;
-            List<KleiTextureAtlasElement> atlasElements = null;
-            Console.WriteLine(atlasDataPath);
+            List<KleiTextureAtlasElement> atlasElements = new List<KleiTextureAtlasElement>();
+            
             if (File.Exists(atlasDataPath))
             {
                 atlasElements = ReadAtlasData(atlasDataPath, mipmap.Width, mipmap.Height);
-            }
-            else
-            {
-                atlasElements = new List<KleiTextureAtlasElement>();
             }
 
             var imgReader = new BinaryReader(new MemoryStream(argbData));
