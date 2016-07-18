@@ -37,7 +37,7 @@ namespace TEXTool
     public partial class MainForm : Form
     {
         public TEXTool Tool;
-        GraphicsPath gp;
+        GraphicsPath graphicsPath;
 
         public MainForm()
         {
@@ -59,18 +59,15 @@ namespace TEXTool
             atlasElementsCountIntToolStripLabel.Text = e.AtlasElements.Count.ToString();
             atlasElementsListToolStripComboBox.ComboBox.Items.Clear();
 
+            graphicsPath = null;
+
             if (e.AtlasElements.Count > 0)
             {
-                gp = new GraphicsPath();
+                graphicsPath = new GraphicsPath();
                 foreach (KleiTextureAtlasElement el in e.AtlasElements)
                 {
-                    gp.AddRectangle(new Rectangle(el.ImgHmin, el.ImgVmin, el.ImgHmin + el.ImgHmax, el.ImgVmin + el.ImgVmax));
                     atlasElementsListToolStripComboBox.Items.Add(el);
                 }
-            }
-            else
-            {
-                gp = null;
             }
             
             imageBox.Image = e.Image;
@@ -79,9 +76,9 @@ namespace TEXTool
 
         private void imageBox_Paint(object sender, PaintEventArgs e)
         {
-            if (imageBox.Image != null && gp != null)
+            if (graphicsPath != null)
             {
-                e.Graphics.DrawPath(Pens.Black, gp);
+                e.Graphics.DrawPath(Pens.Black, graphicsPath);
             }
         }
 
