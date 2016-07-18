@@ -240,6 +240,15 @@ namespace TEXTool
         #endregion
 
         #region Dev Event Handlers
+
+        private void zoomLevelToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (imageBox.Image != null)
+            {
+                int z = int.Parse(zoomLevelToolStripComboBox.SelectedItem.ToString().Replace("%", ""));
+                imageBox.Zoom = z;
+            }
+        }
         
         private void atlasElementsListToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
