@@ -229,19 +229,16 @@ namespace TEXTool
                      * But if your software counts pixels starting from the upper left corner, you should not use them directly. 
                      * Instead, subtract your resulting coordinates them from 1. 
                      * E.g. if your y-coordinate is 0.3, you would use 0.7 (1 – 0.3).
-                     * ONLY for Y-coordinates. For best result Ymin = v1 and Ymax = v2
+                     * ONLY for Y-coordinates.
                      */
 
                     /* NORMAL THE Y-AXIS */
                     double v1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v1").Value.Replace(".", ","));
                     double v2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v2").Value.Replace(".", ","));
 
-                    /* INVERT THE Y-AXIS 
-                     * If you don't swap the values of Ymin and Ymax, the height will be negative
-                     * I don't want add Math.Abs() for height :)
-                     */
-                    v1 = 1 - v2;
-                    v2 = 1 - v1;
+                    /* INVERT THE Y-AXIS */
+                    v1 = 1 - v1;
+                    v2 = 1 - v2;
 
                     int imgHmin, imgHmax, imgVmin, imgVmax;
                     double margin = 0.5;

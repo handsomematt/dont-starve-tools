@@ -223,8 +223,14 @@ namespace TEXTool
             x = element.ImgHmin;
             y = element.ImgVmin;
 
+            /* INVERT THE Y-AXIS */
+            if (element.ImgVmin > element.ImgVmax)
+            {
+                y = element.ImgVmax;
+            }
+
             width = element.ImgHmax - element.ImgHmin;
-            height = element.ImgVmax - element.ImgVmin;
+            height = Math.Abs(element.ImgVmax - element.ImgVmin);
 
             graphicsPath = new GraphicsPath();
             graphicsPath.AddRectangle(new Rectangle(x, y, width, height));
