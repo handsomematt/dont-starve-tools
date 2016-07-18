@@ -258,10 +258,9 @@ namespace TEXTool
 
         private void atlasElementBorderColors_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.ComboBox.SelectedItem;
-            if (element != null)
+            if (graphicsPath != null)
             {
-                DrawRectangle(element);
+                imageBox.Refresh();
             }
         }
 
