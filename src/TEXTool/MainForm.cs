@@ -209,5 +209,13 @@ namespace TEXTool
         }
 
         #endregion
+
+        #region Dev Custom Functions
+
+        #endregion
+
+        #region Dev Event Handlers
+
+        #endregion
     }
 }
