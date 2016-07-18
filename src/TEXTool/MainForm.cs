@@ -61,10 +61,12 @@ namespace TEXTool
             atlasElementsListToolStripComboBox.ComboBox.Items.Clear();
 
             graphicsPath = null;
+            atlasElementsListToolStripComboBox.Enabled = false;
 
             if (e.AtlasElements.Count > 0)
             {
                 graphicsPath = new GraphicsPath();
+                atlasElementsListToolStripComboBox.Enabled = true;
                 foreach (KleiTextureAtlasElement el in e.AtlasElements)
                 {
                     atlasElementsListToolStripComboBox.Items.Add(el);

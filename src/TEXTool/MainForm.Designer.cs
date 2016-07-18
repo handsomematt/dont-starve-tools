@@ -112,8 +112,8 @@ namespace TEXTool
             // 
             // toolStripContainer1.TopToolStripPanel
             // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.atlasElementsToolStrip);
             this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.mainToolStrip);
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.atlasElementsToolStrip);
             // 
             // statusStrip1
             // 
@@ -287,7 +287,7 @@ namespace TEXTool
             this.atlasElementsListToolStripComboBox});
             this.atlasElementsToolStrip.Location = new System.Drawing.Point(3, 25);
             this.atlasElementsToolStrip.Name = "atlasElementsToolStrip";
-            this.atlasElementsToolStrip.Size = new System.Drawing.Size(366, 25);
+            this.atlasElementsToolStrip.Size = new System.Drawing.Size(333, 25);
             this.atlasElementsToolStrip.TabIndex = 2;
             // 
             // atlasElementsToolStripLabel
@@ -326,8 +326,10 @@ namespace TEXTool
             // 
             // atlasElementsListToolStripComboBox
             // 
+            this.atlasElementsListToolStripComboBox.Enabled = false;
             this.atlasElementsListToolStripComboBox.Name = "atlasElementsListToolStripComboBox";
             this.atlasElementsListToolStripComboBox.Size = new System.Drawing.Size(121, 25);
+            this.atlasElementsListToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.atlasElementsListToolStripComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
