@@ -67,6 +67,7 @@ namespace TEXTool
         void tool_FileRawImage(object sender, FileRawImageEventArgs e)
         {
             atlasElementsCountIntToolStripLabel.Text = e.AtlasElements.Count.ToString();
+            atlasElementsListToolStripComboBox.ComboBox.SelectedIndex = -1;
             atlasElementsListToolStripComboBox.ComboBox.Items.Clear();
 
             graphicsPath = null;
@@ -259,7 +260,10 @@ namespace TEXTool
         private void atlasElementsListToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.ComboBox.SelectedItem;
-            DrawRectangle(element);
+            if (element != null)
+            {
+                DrawRectangle(element);
+            }
         }
 
         private void atlasElementBorderColors_SelectedIndexChanged(object sender, EventArgs e)
