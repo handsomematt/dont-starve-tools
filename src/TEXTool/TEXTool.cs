@@ -221,8 +221,27 @@ namespace TEXTool
                     string name = xChild.Attributes.GetNamedItem("name").Value;
                     double u1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("u1").Value.Replace(".", ","));
                     double u2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("u2").Value.Replace(".", ","));
+
+                    /* !!! IMPORTANT TIP !!!
+                     * You may need to invert the y-axis depending on the software you use to check your pixel coordinates. 
+                     * Some image softwares count from the bottom left corner and others from the top left corner. 
+                     * The former can be used as-is because the game uses the same format. 
+                     * But if your software counts pixels starting from the upper left corner, you should not use them directly. 
+                     * Instead, subtract your resulting coordinates them from 1. 
+                     * E.g. if your y-coordinate is 0.3, you would use 0.7 (1 – 0.3).
+                     * ONLY for Y-coordinates. For best result Ymin = v1 and Ymax = v2
+                     */
+
+                    /* NORMAL THE Y-AXIS */
                     double v1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v1").Value.Replace(".", ","));
                     double v2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v2").Value.Replace(".", ","));
+
+                    /* INVERT THE Y-AXIS 
+                     * If you don't swap the values of Ymin and Ymax, the height will be negative
+                     * I don't want add Math.Abs() for height :)
+                     */
+                    v1 = 1 - v2;
+                    v2 = 1 - v1;
 
                     int imgHmin, imgHmax, imgVmin, imgVmax;
                     double margin = 0.5;
