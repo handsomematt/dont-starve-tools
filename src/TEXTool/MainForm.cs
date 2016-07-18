@@ -50,6 +50,15 @@ namespace TEXTool
             FillZoomLevelComboBox();
             versionToolStripLabel.Text = string.Format("Version: {0}", Assembly.GetEntryAssembly().GetName().Version);
 
+            foreach (PropertyInfo prop in typeof(Color).GetProperties())
+            {
+                if (prop.PropertyType.FullName == "System.Drawing.Color")
+                {
+                    atlasElementBorderColors.ComboBox.Items.Add(prop.Name);
+                }
+            }
+            atlasElementBorderColors.ComboBox.SelectedItem = "Black";
+            
             atlasElementsListToolStripComboBox.ComboBox.DisplayMember = "Name";
         }
 
@@ -61,12 +70,13 @@ namespace TEXTool
             atlasElementsListToolStripComboBox.ComboBox.Items.Clear();
 
             graphicsPath = null;
-            atlasElementsListToolStripComboBox.Enabled = false;
+            atlasElementsListToolStripComboBox.Enabled = atlasElementBorderColors.Enabled = false;
+            atlasElementWidthToolStrip.Text = atlasElementHeightToolStrip.Text = atlasElementXToolStrip.Text = atlasElementYToolStrip.Text = "0";
 
             if (e.AtlasElements.Count > 0)
             {
                 graphicsPath = new GraphicsPath();
-                atlasElementsListToolStripComboBox.Enabled = true;
+                atlasElementsListToolStripComboBox.Enabled = atlasElementBorderColors.Enabled = true;
                 foreach (KleiTextureAtlasElement el in e.AtlasElements)
                 {
                     atlasElementsListToolStripComboBox.Items.Add(el);
@@ -219,6 +229,11 @@ namespace TEXTool
             graphicsPath = new GraphicsPath();
             graphicsPath.AddRectangle(new Rectangle(x, y, width, height));
 
+            atlasElementWidthToolStrip.Text = width.ToString();
+            atlasElementHeightToolStrip.Text = height.ToString();
+            atlasElementXToolStrip.Text = x.ToString();
+            atlasElementYToolStrip.Text = y.ToString();
+
             imageBox.Invalidate();
         }
 
@@ -228,8 +243,17 @@ namespace TEXTool
         
         private void atlasElementsListToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.SelectedItem;
+            var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.ComboBox.SelectedItem;
             DrawRectangle(element);
+        }
+
+        private void atlasElementBorderColors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.ComboBox.SelectedItem;
+            if (element != null)
+            {
+                DrawRectangle(element);
+            }
         }
 
         private void imageBox_Paint(object sender, PaintEventArgs e)
@@ -253,7 +277,9 @@ namespace TEXTool
                 e.Graphics.TranslateTransform(offsetX, offsetY);
                 e.Graphics.ScaleTransform(scaleX, scaleY);
 
-                e.Graphics.DrawPath(Pens.Black, graphicsPath);
+                Color color = Color.FromName(atlasElementBorderColors.ComboBox.SelectedItem.ToString());
+                Pen pen = new Pen(new SolidBrush(color), 5f);
+                e.Graphics.DrawPath(pen, graphicsPath);
             }
         }
 
