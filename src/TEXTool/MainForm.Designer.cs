@@ -287,7 +287,8 @@ namespace TEXTool
             this.atlasElementsListToolStripComboBox});
             this.atlasElementsToolStrip.Location = new System.Drawing.Point(3, 25);
             this.atlasElementsToolStrip.Name = "atlasElementsToolStrip";
-            this.atlasElementsToolStrip.Size = new System.Drawing.Size(333, 25);
+            this.atlasElementsToolStrip.Size = new System.Drawing.Size(366, 25);
+            this.atlasElementsToolStrip.Stretch = true;
             this.atlasElementsToolStrip.TabIndex = 2;
             // 
             // atlasElementsToolStripLabel
