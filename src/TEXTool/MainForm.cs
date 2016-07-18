@@ -223,8 +223,8 @@ namespace TEXTool
             x = element.ImgHmin;
             y = element.ImgVmin;
 
-            width = element.ImgHmin + element.ImgHmax;
-            height = element.ImgVmin + element.ImgVmax;
+            width = element.ImgHmax - element.ImgHmin;
+            height = element.ImgVmax - element.ImgVmin;
 
             graphicsPath = new GraphicsPath();
             graphicsPath.AddRectangle(new Rectangle(x, y, width, height));
