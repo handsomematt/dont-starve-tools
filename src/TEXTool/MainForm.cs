@@ -38,6 +38,7 @@ namespace TEXTool
     {
         public TEXTool Tool;
         GraphicsPath graphicsPath;
+        float offsetX = 0, offsetY = 0, scaleX = 1, scaleY = 1;
 
         public MainForm()
         {
@@ -72,14 +73,6 @@ namespace TEXTool
             
             imageBox.Image = e.Image;
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
-        }
-
-        private void imageBox_Paint(object sender, PaintEventArgs e)
-        {
-            if (graphicsPath != null)
-            {
-                e.Graphics.DrawPath(Pens.Black, graphicsPath);
-            }
         }
 
         private void TEXTool_FileOpened(object sender, FileOpenedEventArgs e)
@@ -212,9 +205,55 @@ namespace TEXTool
 
         #region Dev Custom Functions
 
+        private void DrawRectangle(KleiTextureAtlasElement element)
+        {
+            int x, y, width, height;
+            x = element.ImgHmin;
+            y = element.ImgVmin;
+
+            width = element.ImgHmin + element.ImgHmax;
+            height = element.ImgVmin + element.ImgVmax;
+
+            graphicsPath = new GraphicsPath();
+            graphicsPath.AddRectangle(new Rectangle(x, y, width, height));
+
+            imageBox.Invalidate();
+        }
+
         #endregion
 
         #region Dev Event Handlers
+        
+        private void atlasElementsListToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.SelectedItem;
+            DrawRectangle(element);
+        }
+
+        private void imageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (graphicsPath != null)
+            {
+                scaleX = imageBox.Zoom / 100f;
+                scaleY = imageBox.Zoom / 100f;
+                offsetX = ((imageBox.ClientSize.Width - imageBox.PreferredSize.Width) / 2f);
+                offsetY = ((imageBox.ClientSize.Height - imageBox.PreferredSize.Height) / 2f);
+
+                if (offsetX < 0)
+                {
+                    offsetX = -imageBox.HorizontalScroll.Value;
+                }
+                if (offsetY < 0)
+                {
+                    offsetY = -imageBox.VerticalScroll.Value;
+                }
+
+                e.Graphics.TranslateTransform(offsetX, offsetY);
+                e.Graphics.ScaleTransform(scaleX, scaleY);
+
+                e.Graphics.DrawPath(Pens.Black, graphicsPath);
+            }
+        }
 
         #endregion
     }
