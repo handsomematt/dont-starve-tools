@@ -29,11 +29,16 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
 namespace TEXTool
 {
     public partial class MainForm : Form
     {
         public TEXTool Tool;
+        GraphicsPath graphicsPath;
+        float offsetX = 0, offsetY = 0, scaleX = 1, scaleY = 1;
 
         public MainForm()
         {
@@ -44,12 +49,41 @@ namespace TEXTool
             InitializeComponent();
             FillZoomLevelComboBox();
             versionToolStripLabel.Text = string.Format("Version: {0}", Assembly.GetEntryAssembly().GetName().Version);
+
+            foreach (PropertyInfo prop in typeof(Color).GetProperties())
+            {
+                if (prop.PropertyType.FullName == "System.Drawing.Color")
+                {
+                    atlasElementBorderColors.ComboBox.Items.Add(prop.Name);
+                }
+            }
+            atlasElementBorderColors.ComboBox.SelectedItem = "Black";
+            
+            atlasElementsListToolStripComboBox.ComboBox.DisplayMember = "Name";
         }
 
         #region
 
         void tool_FileRawImage(object sender, FileRawImageEventArgs e)
         {
+            atlasElementsCountIntToolStripLabel.Text = e.AtlasElements.Count.ToString();
+            atlasElementsListToolStripComboBox.ComboBox.SelectedIndex = -1;
+            atlasElementsListToolStripComboBox.ComboBox.Items.Clear();
+
+            graphicsPath = null;
+            atlasElementsListToolStripComboBox.Enabled = atlasElementBorderColors.Enabled = false;
+            atlasElementWidthToolStrip.Text = atlasElementHeightToolStrip.Text = atlasElementXToolStrip.Text = atlasElementYToolStrip.Text = "0";
+
+            if (e.AtlasElements.Count > 0)
+            {
+                graphicsPath = new GraphicsPath();
+                atlasElementsListToolStripComboBox.Enabled = atlasElementBorderColors.Enabled = true;
+                foreach (KleiTextureAtlasElement el in e.AtlasElements)
+                {
+                    atlasElementsListToolStripComboBox.Items.Add(el);
+                }
+            }
+            
             imageBox.Image = e.Image;
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
         }
@@ -144,12 +178,12 @@ namespace TEXTool
 
         #region Misc Form Event Handlers
 
-        private void imageBox1_ZoomLevelsChanged(object sender, EventArgs e)
+        private void imageBox_ZoomLevelsChanged(object sender, EventArgs e)
         {
             FillZoomLevelComboBox();
         }
 
-        private void imageBox1_ZoomChanged(object sender, EventArgs e)
+        private void imageBox_ZoomChanged(object sender, EventArgs e)
         {
             zoomLevelToolStripComboBox.Text = string.Format("{0}%", imageBox.Zoom);
         }
@@ -178,6 +212,93 @@ namespace TEXTool
             }
 
             return true;
+        }
+
+        #endregion
+
+        #region Dev Custom Functions
+
+        private void DrawRectangle(KleiTextureAtlasElement element)
+        {
+            int x, y, width, height;
+            x = element.ImgHmin;
+            y = element.ImgVmin;
+
+            /* INVERT THE Y-AXIS */
+            if (element.ImgVmin > element.ImgVmax)
+            {
+                y = element.ImgVmax;
+            }
+
+            width = element.ImgHmax - element.ImgHmin;
+            height = Math.Abs(element.ImgVmax - element.ImgVmin);
+
+            graphicsPath = new GraphicsPath();
+            graphicsPath.AddRectangle(new Rectangle(x, y, width, height));
+
+            atlasElementWidthToolStrip.Text = width.ToString();
+            atlasElementHeightToolStrip.Text = height.ToString();
+            atlasElementXToolStrip.Text = x.ToString();
+            atlasElementYToolStrip.Text = y.ToString();
+
+            imageBox.Invalidate();
+        }
+
+        #endregion
+
+        #region Dev Event Handlers
+
+        private void zoomLevelToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (imageBox.Image != null)
+            {
+                int z = int.Parse(zoomLevelToolStripComboBox.SelectedItem.ToString().Replace("%", ""));
+                imageBox.Zoom = z;
+            }
+        }
+        
+        private void atlasElementsListToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var element = (KleiTextureAtlasElement)atlasElementsListToolStripComboBox.ComboBox.SelectedItem;
+            if (element != null)
+            {
+                DrawRectangle(element);
+            }
+        }
+
+        private void atlasElementBorderColors_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (graphicsPath != null)
+            {
+                imageBox.Refresh();
+            }
+        }
+
+        private void imageBox_Paint(object sender, PaintEventArgs e)
+        {
+            if (graphicsPath != null)
+            {
+                scaleX = imageBox.Zoom / 100f;
+                scaleY = imageBox.Zoom / 100f;
+                offsetX = ((imageBox.ClientSize.Width - imageBox.PreferredSize.Width) / 2f);
+                offsetY = ((imageBox.ClientSize.Height - imageBox.PreferredSize.Height) / 2f);
+
+                if (offsetX < 0)
+                {
+                    offsetX = -imageBox.HorizontalScroll.Value;
+                }
+                if (offsetY < 0)
+                {
+                    offsetY = -imageBox.VerticalScroll.Value;
+                }
+
+                e.Graphics.TranslateTransform(offsetX, offsetY);
+                e.Graphics.ScaleTransform(scaleX, scaleY);
+
+                Color color = Color.FromName(atlasElementBorderColors.ComboBox.SelectedItem.ToString());
+                Pen pen = new Pen(new SolidBrush(color), 5f);
+                e.Graphics.DrawPath(pen, graphicsPath);
+            }
         }
 
         #endregion

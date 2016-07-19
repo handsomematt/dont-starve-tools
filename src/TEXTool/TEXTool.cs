@@ -33,8 +33,29 @@ using System.Linq;
 using KleiLib;
 using SquishNET;
 
+using System.Collections.Generic;
+using System.Xml;
+
 namespace TEXTool
 {
+    public class KleiTextureAtlasElement
+    {
+        public string Name { get; set; }
+        public int ImgHmin { get; set; }
+        public int ImgHmax { get; set; }
+        public int ImgVmin { get; set; }
+        public int ImgVmax { get; set; }
+
+        public KleiTextureAtlasElement(string name, int u1, int u2, int v1, int v2)
+        {
+            this.Name = name;
+            this.ImgHmin = u1;
+            this.ImgHmax = u2;
+            this.ImgVmin = v1;
+            this.ImgVmax = v2;
+        }
+    }
+
     public class FileOpenedEventArgs : EventArgs
     {
         public string FileName { get; set; }
@@ -53,10 +74,12 @@ namespace TEXTool
     public class FileRawImageEventArgs : EventArgs
     {
         public Bitmap Image { get; set; }
+        public List<KleiTextureAtlasElement> AtlasElements { get; set; }
 
-        public FileRawImageEventArgs(Bitmap image)
+        public FileRawImageEventArgs(Bitmap image, List<KleiTextureAtlasElement> elements)
         {
             this.Image = image;
+            this.AtlasElements = elements;
         }
     }
 
@@ -151,6 +174,18 @@ namespace TEXTool
                     throw new Exception("Unknown pixel format?");
             }
 
+            string atlasExt = "xml";
+            FileInfo fileInfo = new FileInfo(filename);
+            string fileDir = fileInfo.DirectoryName;
+            string fileNameWithoutExt = fileInfo.Name.Replace(fileInfo.Extension, "");
+            string atlasDataPath = fileDir + @"\" + fileNameWithoutExt + "." + atlasExt;
+            List<KleiTextureAtlasElement> atlasElements = new List<KleiTextureAtlasElement>();
+            
+            if (File.Exists(atlasDataPath))
+            {
+                atlasElements = ReadAtlasData(atlasDataPath, mipmap.Width, mipmap.Height);
+            }
+
             var imgReader = new BinaryReader(new MemoryStream(argbData));
 
             Bitmap pt = new Bitmap((int)mipmap.Width, (int)mipmap.Height);
@@ -169,8 +204,61 @@ namespace TEXTool
 
             CurrentFileRaw = pt;
 
-            OnRawImage(new FileRawImageEventArgs(pt));
+            OnRawImage(new FileRawImageEventArgs(pt, atlasElements));
         }
+
+        private List<KleiTextureAtlasElement> ReadAtlasData(string path, int mipmapWidth, int mipmapHeight)
+        {
+            var AtlasElements = new List<KleiTextureAtlasElement>();
+            try
+            {
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.Load(path);
+
+                XmlNode xNodeElements = xDoc.SelectSingleNode("Atlas/Elements");
+                foreach (XmlNode xChild in xNodeElements.ChildNodes)
+                {
+                    string name = xChild.Attributes.GetNamedItem("name").Value;
+                    double u1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("u1").Value.Replace(".", ","));
+                    double u2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("u2").Value.Replace(".", ","));
+
+                    /* !!! IMPORTANT TIP !!!
+                     * You may need to invert the y-axis depending on the software you use to check your pixel coordinates. 
+                     * Some image softwares count from the bottom left corner and others from the top left corner. 
+                     * The former can be used as-is because the game uses the same format. 
+                     * But if your software counts pixels starting from the upper left corner, you should not use them directly. 
+                     * Instead, subtract your resulting coordinates them from 1. 
+                     * E.g. if your y-coordinate is 0.3, you would use 0.7 (1 – 0.3).
+                     * ONLY for Y-coordinates.
+                     */
+
+                    /* NORMAL THE Y-AXIS */
+                    double v1 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v1").Value.Replace(".", ","));
+                    double v2 = Convert.ToDouble(xChild.Attributes.GetNamedItem("v2").Value.Replace(".", ","));
+
+                    /* INVERT THE Y-AXIS */
+                    v1 = 1 - v1;
+                    v2 = 1 - v2;
+
+                    int imgHmin, imgHmax, imgVmin, imgVmax;
+                    double margin = 0.5;
+                    imgHmin = Convert.ToInt16(u1 * mipmapWidth - margin);
+                    imgHmax = Convert.ToInt16(u2 * mipmapWidth - margin);
+                    imgVmin = Convert.ToInt16(v1 * mipmapHeight - margin);
+                    imgVmax = Convert.ToInt16(v2 * mipmapHeight - margin);
+
+                    AtlasElements.Add(new KleiTextureAtlasElement(name, imgHmin, imgHmax, imgVmin, imgVmax));
+                }
+            }
+            catch (Exception e)
+            {
+                AtlasElements.Clear();
+                Console.WriteLine(e.Message);
+            }
+            return AtlasElements;
+        }
+
+
 
         public void SaveFile(string FilePath)
         {
