@@ -85,6 +85,7 @@ namespace TEXTool
 
     public delegate void FileOpenedEventHandler(object sender, FileOpenedEventArgs e);
     public delegate void FileRawImageEventHandler(object sender, FileRawImageEventArgs e);
+    public delegate void ProgressUpdate(int value);
 
     public class TEXTool
     {
@@ -93,6 +94,9 @@ namespace TEXTool
 
         public event FileOpenedEventHandler FileOpened;
         public event FileRawImageEventHandler FileRawImage;
+
+        public event ProgressUpdate OnProgressUpdate;
+
 
         #region Util
 
@@ -191,6 +195,7 @@ namespace TEXTool
             Bitmap pt = new Bitmap((int)mipmap.Width, (int)mipmap.Height);
 
             for (int y = 0; y < mipmap.Height; y++)
+            {
                 for (int x = 0; x < mipmap.Width; x++)
                 {
                     byte r = imgReader.ReadByte();
@@ -199,7 +204,12 @@ namespace TEXTool
                     byte a = imgReader.ReadByte();
                     pt.SetPixel(x, y, Color.FromArgb(a, r, g, b));
                 }
-
+                if (OnProgressUpdate != null)
+                {
+                    OnProgressUpdate(y * 100 / mipmap.Height);
+                }
+            }
+            
             pt.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             CurrentFileRaw = pt;
