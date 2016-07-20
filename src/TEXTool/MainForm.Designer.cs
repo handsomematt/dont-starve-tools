@@ -96,6 +96,7 @@ namespace TEXTool
             this.atlasElementXToolStrip = new System.Windows.Forms.ToolStripLabel();
             this.atlasElementYToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.atlasElementYToolStrip = new System.Windows.Forms.ToolStripLabel();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -435,6 +436,11 @@ namespace TEXTool
             this.atlasElementYToolStrip.Size = new System.Drawing.Size(13, 22);
             this.atlasElementYToolStrip.Text = "0";
             // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -503,6 +509,7 @@ namespace TEXTool
         private System.Windows.Forms.ToolStripLabel atlasElementBorderColorToolStripLabel;
         private System.Windows.Forms.ToolStripComboBox atlasElementBorderColors;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
 
 
     }
