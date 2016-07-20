@@ -15,5 +15,9 @@ namespace TEXTool
         {
             InitializeComponent();
         }
+        public void ReportProgress(int i)
+        {
+            progressBar.Value = i;
+        }
     }
 }
