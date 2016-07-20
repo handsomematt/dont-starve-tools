@@ -29,6 +29,8 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
+using System.ComponentModel;
+
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -37,6 +39,8 @@ namespace TEXTool
     public partial class MainForm : Form
     {
         public TEXTool Tool;
+        public ProgressForm ProgressForm;
+
         GraphicsPath graphicsPath;
         float offsetX = 0, offsetY = 0, scaleX = 1, scaleY = 1;
 
@@ -45,6 +49,7 @@ namespace TEXTool
             Tool = new TEXTool();
             Tool.FileOpened += new FileOpenedEventHandler(TEXTool_FileOpened);
             Tool.FileRawImage += new FileRawImageEventHandler(tool_FileRawImage);
+            Tool.OnProgressUpdate += tool_OnProgressUpdate;
 
             InitializeComponent();
             FillZoomLevelComboBox();
@@ -110,7 +115,10 @@ namespace TEXTool
 
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    Tool.OpenFile(dialog.FileName, dialog.OpenFile());
+                    ProgressForm = new ProgressForm();
+                    ProgressForm.StartPosition = FormStartPosition.CenterParent;
+                    backgroundWorker.RunWorkerAsync(dialog);
+                    ProgressForm.ShowDialog(this);
                 }
             }
         }
@@ -301,6 +309,30 @@ namespace TEXTool
             }
         }
 
+        private void tool_OnProgressUpdate(int value)
+        {
+            base.Invoke((Action)delegate
+            {
+                ProgressForm.ReportProgress(value);
+            });
+        }
+
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var dialog = (OpenFileDialog)e.Argument;
+            Tool.OpenFile(dialog.FileName, dialog.OpenFile());
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (ProgressForm != null)
+            {
+                ProgressForm.Close();
+                ProgressForm.Dispose();
+            }
+        }
+        
         #endregion
+        
     }
 }
